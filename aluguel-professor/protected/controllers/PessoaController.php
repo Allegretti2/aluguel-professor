@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class PessoaController extends Controller
 {
@@ -27,16 +27,19 @@ class PessoaController extends Controller
 			else
 				$pessoa = new Pessoa;
 			
-			//CVarDumper::dump($_POST['Pessoa'], 10 ,true);die;
 			$pessoa->attributes = $_POST['Pessoa'];
-			
-			if ($_POST['Pessoa']['NovaSenha'] == $_POST['Pessoa']['SenhaRepetida'])
-				$pessoa->SenhaPessoa = md5($_POST['Pessoa']['NovaSenha']);
-			else
-				$temErro = true;
+			//$pessoa->DataNascimentoPessoa = date($_POST['Pessoa']['DataNascimentoPessoa']);
+			if (!empty($_POST['Pessoa']['NovaSenha']) && !empty($_POST['Pessoa']['SenhaRepetida']))
+			{
+				if ($_POST['Pessoa']['NovaSenha'] == $_POST['Pessoa']['SenhaRepetida'])
+					$pessoa->SenhaPessoa = md5($_POST['Pessoa']['NovaSenha']);
+				else
+					$temErro = true;
+			}
 			
 			if ($pessoa->isNewRecord)
 			{
+				$pessoa->SaldoPessoa = 0;
 				if ($_POST['Pessoa']['Indicador'] == 1)
 				{
 					$pessoa->IndicadorFuncionario = 'N';
@@ -52,12 +55,52 @@ class PessoaController extends Controller
 			$pessoa->IndicadorExcluido = 'N';
 			if (!$temErro)
 			{
+				if ($pessoa->isNewRecord)
+					Yii::app()->user->setFlash('success', "Cadastro realizado com sucesso!");
+				else
+					Yii::app()->user->setFlash('success', "Informações atualizadas com sucesso!");
+				
 				$pessoa->save();
-				$this->redirect(array('site/novoLogin'));
+				$this->redirect(array('site/index'));
 			}
 			else
-				$x=1; //EXIBE MENSAGEM DE ERRO
+			{
+				Yii::app()->user->setFlash('error', "Não foi possível salvar as informações!");
+				$this->redirect('meuPerfil');
+			}
 		}
+	}
+	
+	public function actionInserirCredito()
+	{
+		if (isset($_POST['Pessoa']))
+		{
+			$pessoa = Pessoa::model()->findByPk(Yii::app()->user->CodPessoa);
+			$pessoa->SaldoPessoa += $_POST['Pessoa']['Depositar'];
+			$pessoa->save();
+			$this->render('index');
+		}
+		else
+			$this->render('formInserirCredito');
+	}
+	
+	public function actionSacarCredito()
+	{
+		if (isset($_POST['Pessoa']))
+		{
+			$pessoa = Pessoa::model()->findByPk(Yii::app()->user->CodPessoa);
+			$qtdSacar = $_POST['Pessoa']['Sacar'];
+			
+			if ($pessoa->SaldoPessoa < $qtdSacar)
+				$pessoa->SaldoPessoa -= $pessoa->SaldoPessoa;
+			else
+				$pessoa->SaldoPessoa -= $_POST['Pessoa']['Sacar'];
+			
+			$pessoa->save();
+			$this->render('index');
+		}
+		else
+			$this->render('formSacarCredito');
 	}
 
 	// Uncomment the following methods and override them if needed

@@ -82,6 +82,7 @@ body
 
 div.flash-error, div.flash-notice, div.flash-success
 {
+	border-radius: 10px;
 	padding:.8em;
 	margin-bottom:1em;
 	border:2px solid #ddd;
@@ -89,6 +90,7 @@ div.flash-error, div.flash-notice, div.flash-success
 
 div.flash-error
 {
+	border-radius: 10px;
 	background:#FBE3E4;
 	color:#8a1f11;
 	border-color:#FBC2C4;

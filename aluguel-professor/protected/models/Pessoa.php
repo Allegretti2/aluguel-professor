@@ -8,8 +8,15 @@
  * @property string $NomePessoa
  * @property string $CPFPessoa
  * @property string $EmailPessoa
+ * @property string $GeneroPessoa
+ * @property string $EnderecoPessoa
+ * @property string $NumeroPessoa
+ * @property string $BairroPessoa
+ * @property string $CEPPessoa
+ * @property string $TelefonePessoa
+ * @property string $DataNascimentoPessoa
  * @property string $SenhaPessoa
- * @property double $SaldoPessoa
+ * @property string $SaldoPessoa
  * @property string $IndicadorProfessor
  * @property string $IndicadorFuncionario
  * @property string $IndicadorExcluido
@@ -32,15 +39,18 @@ class Pessoa extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('NomePessoa, CPFPessoa, EmailPessoa, SenhaPessoa, IndicadorProfessor, IndicadorFuncionario', 'required'),
-			array('SaldoPessoa', 'numerical'),
-			array('NomePessoa, EmailPessoa', 'length', 'max'=>20),
+			array('NomePessoa, CPFPessoa, EmailPessoa, GeneroPessoa, EnderecoPessoa, BairroPessoa, CEPPessoa, TelefonePessoa, DataNascimentoPessoa, SenhaPessoa, SaldoPessoa, IndicadorProfessor, IndicadorFuncionario', 'required'),
+			array('NomePessoa, EmailPessoa, EnderecoPessoa, BairroPessoa', 'length', 'max'=>20),
 			array('CPFPessoa', 'length', 'max'=>11),
-			array('SenhaPessoa', 'length', 'max'=>42),
-			array('IndicadorProfessor, IndicadorFuncionario, IndicadorExcluido', 'length', 'max'=>1),
+			array('GeneroPessoa, IndicadorProfessor, IndicadorFuncionario, IndicadorExcluido', 'length', 'max'=>1),
+			array('NumeroPessoa', 'length', 'max'=>5),
+			array('CEPPessoa', 'length', 'max'=>9),
+			array('TelefonePessoa', 'length', 'max'=>13),
+			array('SenhaPessoa', 'length', 'max'=>32),
+			array('SaldoPessoa', 'length', 'max'=>10),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('CodPessoa, NomePessoa, CPFPessoa, EmailPessoa, SenhaPessoa, SaldoPessoa, IndicadorProfessor, IndicadorFuncionario, IndicadorExcluido', 'safe', 'on'=>'search'),
+			array('CodPessoa, NomePessoa, CPFPessoa, EmailPessoa, GeneroPessoa, EnderecoPessoa, NumeroPessoa, BairroPessoa, CEPPessoa, TelefonePessoa, DataNascimentoPessoa, SenhaPessoa, SaldoPessoa, IndicadorProfessor, IndicadorFuncionario, IndicadorExcluido', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -65,6 +75,13 @@ class Pessoa extends CActiveRecord
 			'NomePessoa' => 'Nome Pessoa',
 			'CPFPessoa' => 'Cpfpessoa',
 			'EmailPessoa' => 'Email Pessoa',
+			'GeneroPessoa' => 'Genero Pessoa',
+			'EnderecoPessoa' => 'Endereco Pessoa',
+			'NumeroPessoa' => 'Numero Pessoa',
+			'BairroPessoa' => 'Bairro Pessoa',
+			'CEPPessoa' => 'Ceppessoa',
+			'TelefonePessoa' => 'Telefone Pessoa',
+			'DataNascimentoPessoa' => 'Data Nascimento Pessoa',
 			'SenhaPessoa' => 'Senha Pessoa',
 			'SaldoPessoa' => 'Saldo Pessoa',
 			'IndicadorProfessor' => 'Indicador Professor',
@@ -95,8 +112,15 @@ class Pessoa extends CActiveRecord
 		$criteria->compare('NomePessoa',$this->NomePessoa,true);
 		$criteria->compare('CPFPessoa',$this->CPFPessoa,true);
 		$criteria->compare('EmailPessoa',$this->EmailPessoa,true);
+		$criteria->compare('GeneroPessoa',$this->GeneroPessoa,true);
+		$criteria->compare('EnderecoPessoa',$this->EnderecoPessoa,true);
+		$criteria->compare('NumeroPessoa',$this->NumeroPessoa,true);
+		$criteria->compare('BairroPessoa',$this->BairroPessoa,true);
+		$criteria->compare('CEPPessoa',$this->CEPPessoa,true);
+		$criteria->compare('TelefonePessoa',$this->TelefonePessoa,true);
+		$criteria->compare('DataNascimentoPessoa',$this->DataNascimentoPessoa,true);
 		$criteria->compare('SenhaPessoa',$this->SenhaPessoa,true);
-		$criteria->compare('SaldoPessoa',$this->SaldoPessoa);
+		$criteria->compare('SaldoPessoa',$this->SaldoPessoa,true);
 		$criteria->compare('IndicadorProfessor',$this->IndicadorProfessor,true);
 		$criteria->compare('IndicadorFuncionario',$this->IndicadorFuncionario,true);
 		$criteria->compare('IndicadorExcluido',$this->IndicadorExcluido,true);

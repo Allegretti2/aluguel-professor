@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class SiteController extends Controller
 {
@@ -89,11 +89,13 @@ class SiteController extends Controller
 			if($identity->authenticate())
 			{
 				Yii::app()->user->login($identity);
-				$this->redirect(array('disciplina/viewOrNewDisciplina'));
+				Yii::app()->user->setFlash('success', "Você está logado!");
+				$this->redirect(array('disciplina/index'));
+				
 			}
 			else
 			{
-				echo $identity->errorMessage;
+				Yii::app()->user->setFlash('error', "Não foi possível logar-se! Verifique as informações preenchidas!");
 				$this->redirect(array('site/novoLogin'));
 			}
 		}
